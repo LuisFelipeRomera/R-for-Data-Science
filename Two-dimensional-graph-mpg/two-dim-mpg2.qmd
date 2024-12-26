@@ -1,6 +1,6 @@
 ---
 title: "Two Dimensional Dispersion"
-format: html
+format: pdf
 editor: visual
 ---
 
