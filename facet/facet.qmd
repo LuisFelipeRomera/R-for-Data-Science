@@ -1,0 +1,108 @@
+---
+title: "Facet"
+format: html
+editor: visual
+---
+
+# Facets
+
+-   It's possible to relate two quantitative variables with a categorical third using the command `facet-wrap`
+
+-   Here, I'm diving the information in subgraphs of class values:
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+
+ggplot(data = mpg) + 
+  geom_point(
+    mapping = aes(x = displ, y = hwy)
+  ) +
+  facet_wrap( ~ class, nrow = 2)
+```
+
+-   Nonetheless, I can add a second categorical variable, and plot **displ** and **hwy** against **drv** and **cyl** with `facet_grid`:
+
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(
+        mapping = aes(x = displ, y = hwy)
+      ) +
+      facet_grid( drv ~ cyl)
+    ```
+
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(
+        mapping = aes(x = displ, y = hwy)
+      ) +
+      facet_grid(. ~ cyl)
+    ```
+
+## Exercises
+
+------------------------------------------------------------------------
+
+*Q: What happens if you create facets of a quantitative variable?*
+
+A:
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(
+    mapping = aes(x = displ, y = hwy)
+  ) +
+  facet_wrap( ~ cty)
+```
+
+It becomes confuse, difficulting the analysis.
+
+*Q: What do the blank cells mean in a graph obtained by facet_grid( drv \~cyl )?*
+
+A:
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(
+    mapping = aes(x = displ, y = hwy)
+  ) +
+  facet_grid( drv ~ cyl)
+```
+
+They that no sample has simultaneously the four values of the four variables represented by that cell.
+
+\*Q: What does the following code do? `facet_grid( drv ~ . ) and facet_grid( . ~ cyl ). What "." do?`
+
+A:
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(
+    mapping = aes(x = displ, y = hwy)
+  ) +
+  facet_grid( drv ~ .)
+```
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(
+    mapping = aes(x = displ, y = hwy)
+  ) +
+  facet_grid( . ~ cyl)
+```
+
+They plot the third (categorical) variable as a row or as a collumn. The `.`indicates that no second categorical variable is being plotted.
+
+\*Q: Consider the code: `facet_wrap( ~ class, nrow = 2 )`. What are the vantages of using facets instead of color aesthetics? Which are the disadvantages? How could the balance change if you had a larger data set?\*
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(
+    mapping = aes(x = displ, y = hwy)
+  ) +
+  facet_wrap( ~ class, nrow = 2)
+```
+
+A: Facets show the effects of the categorical variable clearer, While the disadvantage is that is harder to observe the samples from different categories as part of the same data set. Moreover, if I was dealing with a larger data set, it would become confuse to relate all the samples due to too many subgraphs.
