@@ -1,0 +1,84 @@
+---
+title: "Geometric Object"
+format: pdf
+editor: visual
+---
+
+# Geometric Objects
+
+-   Geometric objects or *geoms* are objects used to represent data.
+
+-   I can represent data with point geom:
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+ggplot(data = mpg) +
+  geom_point(
+    mapping = aes(x = displ, y = hwy, alpha = displ), #putting some color grading just for aesthetics
+    show.legend = FALSE #removing the color grading legend since the x axis already do the job! 
+  )
+
+```
+
+-   Or I can use a smooth line adjusted to the data:
+
+    ```{r}
+    #| message: false
+    #| warning: false
+    ggplot(data = mpg) +
+      geom_smooth(
+        mapping = aes(x = displ, y = hwy)
+      )
+
+    ```
+
+-   I can also do *scaling* with the type of *smooth line*:
+
+```{r}
+ggplot(data = mpg) +
+  geom_smooth(
+    mapping = aes(x = displ, y = hwy, linetype = drv, color = drv)
+  )
+
+```
+
+-   It's also possible to combine different geoms:
+
+    ```{r}
+    #| message: false
+    #| warning: false
+    ggplot(data = mpg) +
+      geom_smooth(
+        mapping = aes(x = displ, y = hwy, linetype = drv, color = drv)
+      ) +
+      geom_point(
+        mapping = aes(x = displ, y = hwy, alpha = drv)
+      )
+    ```
+
+-   Nevertheless, it's possible to declare the variables directly in the `ggplot` function to use it in every geom, needing only to declare the variables you want in specific geoms:
+
+    ```{r}
+    #| message: false
+    #| warning: false
+    ggplot(data = mpg, mapping = aes( x = displ, y = hwy)) +
+      geom_point(mapping = aes(color = class)) + 
+      geom_smooth() #it will use the variables I declared in ggplot
+
+    ```
+
+-   Additionally, I can use the smooth line only to a subgroup of my data:
+
+    ```{r}
+    #| message: false
+    #| warning: false
+    ggplot(data = mpg, mapping = aes( x = displ, y = hwy)) +
+      geom_point(mapping = aes(color = class)) + 
+      geom_smooth(
+        data = filter(mpg, class == "subcompact"), #filtering the smooth geom to the subgroup
+        se = FALSE #removing the buffer around the line
+      )
+
+    ```
