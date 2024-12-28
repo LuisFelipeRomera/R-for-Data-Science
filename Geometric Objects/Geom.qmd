@@ -1,6 +1,6 @@
 ---
 title: "Geometric Object"
-format: html
+format: pdf
 editor: visual
 ---
 
